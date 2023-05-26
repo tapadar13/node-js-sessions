@@ -1,9 +1,5 @@
 const express = require("express");
-const {
-  getCurrencyTitle,
-  getCurrencies,
-  getCurrenciesWithSymbol,
-} = require("./controllers/currencies.controller");
+
 const {
   getAllUsers,
   getUsersByUuid,
@@ -14,9 +10,9 @@ const app = express();
 
 const PORT = 8082;
 
-app.get("/", getCurrencyTitle);
-app.get("/currencies", getCurrencies);
-app.get("/currencies/:symbol", getCurrenciesWithSymbol);
+const currrencyRoutes = require("./routes/currencies.routes");
+
+app.use("/currencies", currrencyRoutes);
 
 app.get("/users", getAllUsers);
 app.get("/users/search", searchUsersByQuery);
