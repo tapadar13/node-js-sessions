@@ -1,11 +1,31 @@
 const { data } = require("../DB/response.json");
+const PASSWORD = "LetMeIn";
+
+const verifyAuth = (req) => {
+  const { authorization } = req.headers;
+
+  if (!authorization) {
+    return false;
+  }
+  if (authorization !== PASSWORD) {
+    return false;
+  }
+  return true;
+};
+
 const getCurrencyTitle = (req, res) => {
-  console.log("Current route: /");
+  if (!verifyAuth(req)) {
+    return res.status(403).send({ message: "Unauthorized Request" });
+  }
   res.send("<h1>Currency Database</h1>");
   res.end();
 };
 
 const getCurrencies = (req, res) => {
+  if (!verifyAuth(req)) {
+    return res.status(403).send({ message: "Unauthorized Request" });
+  }
+
   const { min_value } = req.query;
   const result = data.filter(
     (elem) => Number(elem.min_size) === Number(min_value)
@@ -20,6 +40,10 @@ const getCurrencies = (req, res) => {
 };
 
 const getCurrenciesWithSymbol = (req, res) => {
+  if (!verifyAuth(req)) {
+    return res.status(403).send({ message: "Unauthorized Request" });
+  }
+
   const { symbol } = req.params;
   const result = data.find(
     (elem) => elem.id.toLowerCase() === symbol.toLowerCase()
