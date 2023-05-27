@@ -1,4 +1,5 @@
 const { data } = require("../DB/users.json");
+const { getQueryErrors } = require("../middlewares/users.validators");
 
 const getAllUsers = (req, res) => {
   res.json(data);
@@ -16,32 +17,11 @@ const getUsersByUuid = (req, res) => {
 
 const searchUsersByQuery = (req, res) => {
   const { gender, age } = req.query;
-  if (!age && !gender) {
-    return res.status(422).json({
-      message: "Missing Search Parameters, search using age and/or gender",
-    });
-  }
+  const error = getQueryErrors({ gender, age });
 
-  if (age) {
-    if (!Number(age)) {
-      return res
-        .status(422)
-        .json({ message: "Age parameter should be a number" });
-    }
-
-    if (age >= 100 || age < 0) {
-      return res.status(422).json({
-        message: "Age out of bounds. It should be a number between 0 and 100",
-      });
-    }
-  }
-
-  if (gender) {
-    if (!["female", "male"].includes(gender)) {
-      return res
-        .status(422)
-        .json({ message: "Gender to search can either be 'male' or 'female'" });
-    }
+  if (error) {
+    console.log(error.details[0].message);
+    return res.status(422).json(error);
   }
 
   if (gender && age) {
