@@ -1,5 +1,5 @@
 const { data } = require("../DB/response.json");
-const PASSWORD = "LetMeIn";
+const Password = process.env.ROUTE_PASSWORD;
 
 const verifyAuth = (req) => {
   const { authorization } = req.headers;
@@ -7,7 +7,7 @@ const verifyAuth = (req) => {
   if (!authorization) {
     return false;
   }
-  if (authorization !== PASSWORD) {
+  if (authorization !== Password) {
     return false;
   }
   return true;
