@@ -1,13 +1,14 @@
-const express = require("express");
 require("dotenv").config();
+const currrencyRoutes = require("./routes/currencies.routes");
+const userRoutes = require("./routes/users.routes");
+const { verifyAuth } = require("./middlewares/verifyAuth");
+const express = require("express");
 
 const app = express();
 
 const PORT = 8082;
 
-const currrencyRoutes = require("./routes/currencies.routes");
-const userRoutes = require("./routes/users.routes");
-
+app.use(verifyAuth);
 app.use("/currencies", currrencyRoutes);
 app.use("/users", userRoutes);
 

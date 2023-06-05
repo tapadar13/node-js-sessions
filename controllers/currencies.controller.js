@@ -1,17 +1,5 @@
 const { data } = require("../DB/response.json");
-const Password = process.env.ROUTE_PASSWORD;
-
-const verifyAuth = (req) => {
-  const { authorization } = req.headers;
-
-  if (!authorization) {
-    return false;
-  }
-  if (authorization !== Password) {
-    return false;
-  }
-  return true;
-};
+const { verifyAuth } = require("../middlewares/verifyAuth");
 
 const getCurrencyTitle = (req, res) => {
   if (!verifyAuth(req)) {
