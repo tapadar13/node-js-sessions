@@ -7,4 +7,13 @@ const createNewBlog = async (req, res) => {
   res.json(result);
 };
 
-module.exports = { createNewBlog };
+const getAllBlogs = async (req, res) => {
+  try {
+    const blogs = await Blogs.find({});
+    res.json(blogs);
+  } catch (error) {
+    res.status(404).json({ message: "Could not fetch blogs from DB!", error });
+  }
+};
+
+module.exports = { createNewBlog, getAllBlogs };
