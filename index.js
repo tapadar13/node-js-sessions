@@ -1,6 +1,7 @@
 require("dotenv").config();
 const currrencyRoutes = require("./routes/currencies.routes");
 const userRoutes = require("./routes/users.routes");
+const blogRoutes = require("./routes/blogs.routes");
 const { verifyAuth } = require("./middlewares/verifyAuth");
 const express = require("express");
 const mongoose = require("mongoose");
@@ -13,6 +14,7 @@ const PORT = 8082;
 app.use(verifyAuth);
 app.use("/currencies", currrencyRoutes);
 app.use("/users", userRoutes);
+app.use("/blogs", blogRoutes);
 
 mongoose
   .connect(DB_URI)

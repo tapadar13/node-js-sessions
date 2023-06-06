@@ -1,7 +1,7 @@
-// const { createNewBlog } = require("../controllers/blogs.controller");
+const { createNewBlog } = require("../controllers/blogs.controller");
 
-// const router = require("express").Router();
+const router = require("express").Router();
 
-// router.get("/new", createNewBlog);
+router.get("/new", createNewBlog);
 
-// module.exports = router;
+module.exports = router;
