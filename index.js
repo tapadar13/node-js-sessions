@@ -3,6 +3,8 @@ const currrencyRoutes = require("./routes/currencies.routes");
 const userRoutes = require("./routes/users.routes");
 const { verifyAuth } = require("./middlewares/verifyAuth");
 const express = require("express");
+const mongoose = require("mongoose");
+const DB_URI = "mongodb://127.0.0.1:27017";
 
 const app = express();
 
@@ -12,6 +14,12 @@ app.use(verifyAuth);
 app.use("/currencies", currrencyRoutes);
 app.use("/users", userRoutes);
 
-app.listen(PORT, () => {
-  console.log(`Server is now successfully running at PORT ${PORT}`);
-});
+mongoose
+  .connect(DB_URI)
+  .then(() => {
+    console.log("DB connection passed!");
+    app.listen(PORT, () => {
+      console.log(`Server is now successfully running at PORT ${PORT}`);
+    });
+  })
+  .catch(() => console.log("DB connection failed"));

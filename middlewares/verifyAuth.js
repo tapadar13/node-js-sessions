@@ -1,6 +1,6 @@
 const Password = process.env.ROUTE_PASSWORD;
 
-const verifyAuth = (req, res) => {
+const verifyAuth = (req, res, next) => {
   const { authorization } = req.headers;
 
   if (!authorization) {
