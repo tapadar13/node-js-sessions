@@ -1,10 +1,10 @@
 const Blogs = require("../models/blogs.model");
 
-const createNewBlog = (req, res) => {
+const createNewBlog = async (req, res) => {
   console.log(req.body);
-  const newBlogDoc = new Blogs({ title: "First Blog" });
-  console.log(newBlogDoc);
-  res.sendStatus(200);
+  const newBlogDoc = new Blogs(req.body);
+  const result = await newBlogDoc.save();
+  res.json(result);
 };
 
 module.exports = { createNewBlog };
