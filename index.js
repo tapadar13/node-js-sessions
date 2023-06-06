@@ -11,6 +11,7 @@ const app = express();
 
 const PORT = 8082;
 
+app.use(express.json());
 app.use(verifyAuth);
 app.use("/currencies", currrencyRoutes);
 app.use("/users", userRoutes);
