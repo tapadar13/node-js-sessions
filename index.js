@@ -17,9 +17,9 @@ app.use("/users", userRoutes);
 mongoose
   .connect(DB_URI)
   .then(() => {
-    console.log("DB connection passed!");
+    console.log("Connected to DB at ", DB_URI);
     app.listen(PORT, () => {
       console.log(`Server is now successfully running at PORT ${PORT}`);
     });
   })
-  .catch(() => console.log("DB connection failed"));
+  .catch((e) => console.log("Failed to connect to DB", e));
