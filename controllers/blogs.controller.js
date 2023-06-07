@@ -16,4 +16,16 @@ const getAllBlogs = async (req, res) => {
   }
 };
 
-module.exports = { createNewBlog, getAllBlogs };
+const deleteBlogWithId = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await Blogs.findOneAndDelete({ _id: id });
+    res.json(result);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Couldn't delete blog post. Please try again" });
+  }
+};
+
+module.exports = { createNewBlog, getAllBlogs, deleteBlogWithId };
