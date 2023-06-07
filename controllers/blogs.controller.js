@@ -28,4 +28,23 @@ const deleteBlogWithId = async (req, res) => {
   }
 };
 
-module.exports = { createNewBlog, getAllBlogs, deleteBlogWithId };
+const updateBlogsWithId = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await Blogs.findOneAndUpdate({ _id: id }, req.body, {
+      new: true,
+    });
+    res.json(result);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Couldn't update blog post. Pleasse try again." });
+  }
+};
+
+module.exports = {
+  createNewBlog,
+  getAllBlogs,
+  deleteBlogWithId,
+  updateBlogsWithId,
+};
