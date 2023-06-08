@@ -24,7 +24,7 @@ const deleteBlogWithId = async (req, res) => {
   } catch (error) {
     res
       .status(500)
-      .json({ message: "Couldn't delete blog post. Please try again" });
+      .json({ message: "Couldn't delete blog post. Please try again.", error });
   }
 };
 
@@ -38,7 +38,24 @@ const updateBlogsWithId = async (req, res) => {
   } catch (error) {
     res
       .status(500)
-      .json({ message: "Couldn't update blog post. Pleasse try again." });
+      .json({
+        message: "Couldn't update blog post. Pleasse try again.",
+        error,
+      });
+  }
+};
+
+const searchBlogs = async (req, res) => {
+  const { title, author } = req.params;
+  try {
+    const result = await Blogs.find({
+      $or: [{ title }, { author: { $elemMatch: { email: author } } }],
+    });
+    res.json(result);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Could not fetch blog posts. Please try agin.", error });
   }
 };
 
@@ -47,4 +64,5 @@ module.exports = {
   getAllBlogs,
   deleteBlogWithId,
   updateBlogsWithId,
+  searchBlogs,
 };
