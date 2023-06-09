@@ -1,4 +1,5 @@
 const Blogs = require("../models/blogs.model");
+const { findAllBlogs } = require("../services/blogs.service");
 
 const createNewBlog = async (req, res) => {
   console.log(req.body);
@@ -9,7 +10,7 @@ const createNewBlog = async (req, res) => {
 
 const getAllBlogs = async (req, res) => {
   try {
-    const blogs = await Blogs.find({});
+    const blogs = await findAllBlogs();
     res.json(blogs);
   } catch (error) {
     res.status(404).json({ message: "Could not fetch blogs from DB!", error });
@@ -36,12 +37,10 @@ const updateBlogsWithId = async (req, res) => {
     });
     res.json(result);
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        message: "Couldn't update blog post. Pleasse try again.",
-        error,
-      });
+    res.status(500).json({
+      message: "Couldn't update blog post. Pleasse try again.",
+      error,
+    });
   }
 };
 
