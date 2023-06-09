@@ -1,11 +1,13 @@
 const Blogs = require("../models/blogs.model");
-const { findAllBlogs } = require("../services/blogs.service");
+const {
+  findAllBlogs,
+  createBlogDocument,
+} = require("../services/blogs.service");
 
 const createNewBlog = async (req, res) => {
   console.log(req.body);
-  const newBlogDoc = new Blogs(req.body);
-  const result = await newBlogDoc.save();
-  res.json(result);
+  const newBlogDocument = await createBlogDocument(req.body);
+  res.json(newBlogDocument);
 };
 
 const getAllBlogs = async (req, res) => {
