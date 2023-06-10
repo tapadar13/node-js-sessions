@@ -1,18 +1,22 @@
-const Blogs = require("../models/blogs.model");
-const {
-  findAllBlogs,
-  createBlogDocument,
-} = require("../services/blogs.service");
+const BlogService = require("../services/blogs.services");
+const BlogServiceInstance = new BlogService();
 
 const createNewBlog = async (req, res) => {
-  console.log(req.body);
-  const newBlogDocument = await createBlogDocument(req.body);
-  res.json(newBlogDocument);
+  try {
+    const body = req.body;
+    const newBlog = await BlogServiceInstance.createBlogDocument(body);
+    res.json(newBlog);
+  } catch (error) {
+    res.status(500).json({
+      message: "Couldn't create new blog post. Please try again",
+      error,
+    });
+  }
 };
 
 const getAllBlogs = async (req, res) => {
   try {
-    const blogs = await findAllBlogs();
+    const blogs = await BlogServiceInstance.findAllBlogs();
     res.json(blogs);
   } catch (error) {
     res.status(404).json({ message: "Could not fetch blogs from DB!", error });
@@ -22,7 +26,7 @@ const getAllBlogs = async (req, res) => {
 const deleteBlogWithId = async (req, res) => {
   try {
     const { id } = req.params;
-    const result = await Blogs.findOneAndDelete({ _id: id });
+    const result = await BlogServiceInstance.deleteBlogDocument(id);
     res.json(result);
   } catch (error) {
     res
@@ -34,9 +38,9 @@ const deleteBlogWithId = async (req, res) => {
 const updateBlogsWithId = async (req, res) => {
   try {
     const { id } = req.params;
-    const result = await Blogs.findOneAndUpdate({ _id: id }, req.body, {
-      new: true,
-    });
+    const update = req.body;
+
+    const result = await BlogServiceInstance.updateBlogDocument(id, update);
     res.json(result);
   } catch (error) {
     res.status(500).json({
@@ -49,8 +53,9 @@ const updateBlogsWithId = async (req, res) => {
 const searchBlogs = async (req, res) => {
   const { title, author } = req.params;
   try {
-    const result = await Blogs.find({
-      $or: [{ title }, { author: { $elemMatch: { email: author } } }],
+    const result = await BlogServiceInstance.findBlogByTitleOrAuthor({
+      title,
+      author,
     });
     res.json(result);
   } catch (error) {
