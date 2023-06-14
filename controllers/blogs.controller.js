@@ -1,4 +1,4 @@
-const BlogService = require("../services/blogs.services");
+const BlogService = require("../services/blogs.service");
 const BlogServiceInstance = new BlogService();
 
 const createNewBlog = async (req, res) => {
