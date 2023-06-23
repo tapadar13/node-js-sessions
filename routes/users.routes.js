@@ -2,10 +2,10 @@ const {
   getAllUsers,
   getUsersByUuid,
   searchUsersByQuery,
-} = require("../controllers/users.controllers");
+} = require("../controllers/users.controller");
 const {
   validateSearchQuery,
-} = require("../middlewares/validators/users.validators");
+} = require("../middlewares/validators/users.validator");
 
 const router = require("express").Router();
 

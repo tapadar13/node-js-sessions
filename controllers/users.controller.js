@@ -1,7 +1,5 @@
 const { data } = require("../DB/users.json");
-const {
-  getQueryErrors,
-} = require("../middlewares/validators/users.validators");
+const { getQueryErrors } = require("../middlewares/validators/users.validator");
 
 const getAllUsers = (req, res) => {
   res.json(data);
